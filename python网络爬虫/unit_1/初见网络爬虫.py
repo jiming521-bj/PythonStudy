@@ -5,9 +5,13 @@
 # @SoftWare : PyCharm
 # 导入爬虫请求url库
 from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
 # 模拟浏览器向服务端发出链接请求
 html = urlopen('http://pythonscraping.com/pages/page1.html')
 
+bs = BeautifulSoup(html, 'html.parser')
 # 读取服务器响应的内容
-print(html.read())
+print(bs)
+
+print(bs.div.get_text())
