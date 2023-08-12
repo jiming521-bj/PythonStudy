@@ -57,7 +57,7 @@ def move(x, y, step, angle=0):
 
 
 # move()函数调用
-new_x, new_y = move(1, 1, 10, (math.pi / 6))
+new_x, new_y = move(1, 1, 10, int(math.pi / 6))
 print("移动的新坐标为: (%d, %d)" % (new_x, new_y))
 
 
