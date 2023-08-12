@@ -22,6 +22,21 @@ def number_power(number, n=1):  # 该n中的1值为默认参数
     return result
 
 
+def add_end(L=[]):
+    """
+    定义参数为可变对象 list
+    :param L:
+    :return:
+    """
+    L.append('End')
+    return L
+
+
 if __name__ == '__main__':
     # 测试3的5次方结果
     print(f"3的5次方的结果为: {number_power(3, 5)}")
+
+    # print(add_end([1, 2, 3, 4]))
+    for i in range(3):
+        print(add_end())
+
