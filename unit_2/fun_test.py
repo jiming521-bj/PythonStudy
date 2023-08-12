@@ -22,13 +22,25 @@ def number_power(number, n=1):  # 该n中的1值为默认参数
     return result
 
 
-def add_end(L=[]):
+def add_end(L=[]):  # 该L为list，是可变默认参数
     """
     定义参数为可变对象 list
     :param L:
     :return:
     """
     L.append('End')
+    return L
+
+
+def add_start(L=None):
+    """
+    将可变参数转换为不可变参数
+    :param L:
+    :return:
+    """
+    if L is None:
+        L = []
+    L.append('start')
     return L
 
 
@@ -40,3 +52,6 @@ if __name__ == '__main__':
     for i in range(3):
         print(add_end())
 
+    # 不可变参数的例子
+    for j in range(3):
+        print(add_start())  # 每次调用函数会重新定义L
