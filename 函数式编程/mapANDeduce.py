@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Time     : 2023/6/9 11:15
 # @Author   : JiMing
-# @File     : mapANDreduce.py
+# @File     : mapANDeduce.py
 # @SoftWare : PyCharm
 from functools import reduce
 
@@ -10,7 +10,7 @@ print("吉明")
 
 # map函数
 """
-map()函数接收两个参数，一个是函数，一个是Iterable，
+map()函数接收两个参数，一个是函数，一个是Iterable（可迭代对象 例如list，tuple，dict等），
 map将传入的函数依次作用到序列的每个元素，并把结果作为新的Iterator返回。
 """
 
