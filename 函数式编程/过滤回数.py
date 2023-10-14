@@ -16,5 +16,14 @@ def is_palindrome(n):
 
 
 # 测试:
-output = filter(is_palindrome, range(1, 1000))
-print(list(output))
+output = filter(is_palindrome, range(1, 100))
+for i, j in enumerate(output):
+    # 控制回数之间的间距
+    if j < 10:
+        print(j, end='  ')
+    else:
+        print(j, end=' ')
+    # 每5个回数为一行
+    if (i + 1) % 5 == 0:
+        print()
+
