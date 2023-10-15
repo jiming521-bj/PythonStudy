@@ -16,7 +16,7 @@ class Student(object):
 
     # 显示Student类只能动态的绑定name 和 age实例属性
     __slots__ = ('name', 'age', 'address', 'score',
-                 'set_address', 'set_score', 'set_age', 'hobby')  # 用tuple定义允许绑定的属性名称
+                 'set_address', 'set_score', 'set_age', 'hobby', 'set_car', 'car')  # 用tuple定义允许绑定的属性名称
 
     def set_hobby(self, hobby):
         """
@@ -60,6 +60,16 @@ def set_score(self, score):
     self.score = score
 
 
+def set_car(self, car):
+    """
+    设置学生的转配公交车
+    :param self:
+    :param car:
+    :return:
+    """
+    self.car = car
+
+
 if __name__ == '__main__':
     s = Student()
     s.name = 'chen'  # 动态给实例绑定一个属性
@@ -68,7 +78,14 @@ if __name__ == '__main__':
     # 动态的为实例绑定一个方法
     s.set_age = MethodType(set_age, s)
     s.set_address = MethodType(set_address, s)
-
+    try:
+        s.set_car = MethodType(set_car, s)
+        s.set_car('Tesla Model Car')
+    except Exception as e:
+        print(e)
+    else:
+        # 获取学生的专享校车
+        print(f"{s.car}")
     s.set_age(23)  # 调用实例方法
     s.set_address("贵州省天柱县远口镇坡脚村六组")
 
@@ -106,9 +123,10 @@ if __name__ == '__main__':
     # 为实例绑定动态数据（测试不在slots限定范围中的）
     try:
         s3.number = 100
-        print(s3.number)
     except AttributeError:
         print("AttributeError!")
+    else:
+        print(s3.number)
 
     # 绑定的类属性不被slots限制
     try:
@@ -117,7 +135,7 @@ if __name__ == '__main__':
     except AttributeError:
         print("AttributeError!")
 
-    # slots定义的属性仅对当前实例起作用，对继承的子类是不起作用的
+    # slots定义的属性仅对当前实例起作用，对继承的子类是不起作用的 如果子类中也有slots那么将继承父类的slots
     g = GraduateStudent()
     g.ming = 'This is a beautiful world'
     print(g.ming)

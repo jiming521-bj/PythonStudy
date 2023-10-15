@@ -4,7 +4,7 @@
 # @File     : 获取对象信息.py
 # @SoftWare : PyCharm
 from animal import Animal
-import types
+import types  # 使用types模块判断一个对象是否是函数
 
 
 class Dog(Animal):
@@ -153,6 +153,5 @@ if __name__ == '__main__':
 
     myFunction = getattr(obj, 'power')  # 将power()方法指向给变量myFunction
     print(myFunction)
-    print(myFunction())   # myFunction变量可以通过()调用该实例方法 效果和对象访问方法一致 obj.power()
+    print(myFunction())  # myFunction变量可以通过()调用该实例方法 效果和对象访问方法一致 obj.power()
     print(obj.power())
-

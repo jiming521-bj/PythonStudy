@@ -11,7 +11,10 @@ Month = Enum(
     ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
 )
-
+Color = Enum(
+    'color',
+    ('red', 'blue', 'green', 'grey', 'while', 'black', 'brown')
+)
 # 枚举Month对象
 for name, member in Month.__members__.items():
     print(name, '=>', member, ',', member.value)  # value属性则是自动赋给成员的int常量，默认从1开始计数。
@@ -45,3 +48,6 @@ if __name__ == '__main__':
 
     for day, value in Weekday.__members__.items():
         print(day, "--->",  value)
+
+    for value, member in Color.__members__.items():
+        print(f"{value}---{member}-----{member.value}")

@@ -56,6 +56,8 @@ class Screen(object):
     def __init__(self):
         self._width = 0
         self._height = 0
+        self._name = 'jiming'
+        self.__salary = 10000
 
     @property
     def width(self):
@@ -97,6 +99,14 @@ if __name__ == '__main__':
     s = Screen()
     s.width = 1024
     s.height = 7682
+
+    # 返回授权限的属性值
+    try:
+        print(s._name)
+        # print(s.__saraly)
+        # print(s._Screen__salary)
+    except AttributeError:
+        print("this property is not exists!")
     print(s.resolution)
 
     try:

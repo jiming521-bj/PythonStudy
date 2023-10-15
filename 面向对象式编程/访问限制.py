@@ -11,8 +11,8 @@ if __name__ == '__main__':
     try:
         bart = Student('bart Simpson', 88)
         lisa = Student('lisa Simpson', 99)
-        print(bart.__name)    # # 'Student' object has no attribute '__name'
-        print(lisa.__name)
+        print(bart._value)   # 一个下划线开头的实例变量名，这样的变量外部可以访问，但是最好视为私有变量，不轻易访问
+        print(bart.__name)  # 'Student' object has no attribute '__name'
     except AttributeError:
         print("'Student' object has no attribute '__name'")
 

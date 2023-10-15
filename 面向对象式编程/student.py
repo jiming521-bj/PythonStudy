@@ -39,6 +39,7 @@ class Student(object):
         # 如果在实例变量中加上__下划线声明定义的 那么该实例变量在类外不可轻易访问
         self.__name = name
         self.__score = score
+        self._value = 10
 
     # 提供get_name, 和 get_score函数方便用户获取类中的私有属性
     def get_name(self):

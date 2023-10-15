@@ -30,6 +30,8 @@ class Student(object):
 
     @studentHobby.setter
     def studentHobby(self, hobby):
+        if isinstance(hobby, int):
+            raise TypeError('Please pass in string...')
         self.hobby = hobby
 
     def __str__(self):  # 定制类 将对象以指定字符串格式输出
@@ -39,8 +41,10 @@ class Student(object):
         return len(self.name)
 
     def __call__(self, *args, **kwargs):
+        if self.hobby == '':
+            return
         print('My hobby is %s' % self.hobby)
-        print(len(args))
+        print(f"The number of parameters you passed in is: {len(args)}")
 
         for i in args:
             print(i, end=' ')
@@ -76,37 +80,67 @@ class Fib(object):
 class Fib1(object):
     def __getitem__(self, item):
         if isinstance(item, int):  # 判断item为索引
-            a, b = 1, 1
+            a, b = 0, 1
             for x in range(item):
                 a, b = b, a + b
 
             return a
         if isinstance(item, slice):  # 判断ite为切片
+            # 获取起始值
             start = item.start
+            # 获取终止值
             stop = item.stop
+            # 获取步长
             step = item.step
 
-            temp = start
+            # 判断起始值是否空，如果则默认起始值为0开始
             if start is None:
                 start = 0
+            # 判断是否传入步长，如果没有默认步长为1
             if step is None:
                 step = 1
-
+            # 临时保存起始值
+            temp = start
+            # 初始化斐波那契数列的起始值
             a, b = 1, 1
+            # 存储切片结果的列表
             L = []
+            # 遍历到终止值的所有斐波那契数列
+            # 判断stop的值是否是负索引
             for x in range(stop):
+                # 步长为1 不考虑步长的问题 直接从起始值（start）到终止值（stop）开始获取所有的斐波那数
                 if step == 1:
+                    # 保证从stop终止值遍历的数据值始终大于等于起始值（start）
                     if x >= abs(start):
                         L.append(a)
+                # 考虑有传入步长情况 另外添加条件 x % step == 1
                 else:
-                    if x >= start and x % step == 1:
-                        L.append(a)
+                    if start == 0:
+                        # 对起始位置为0的处理方式
+                        if x >= start and x % step == 0:
+                            L.append(a)
+                        pass
+                    else:
+                        if x >= start and x % step == 1:
+                            L.append(a)
                 a, b = b, a + b
 
+            # 该段代码仅仅作为测试  后续考虑终止值为负数的情况
             if temp < 0:
                 L.reverse()
                 return L
+            # 以列表的方式返回截取结果
             return L
+
+
+class Fib2(object):
+    """
+    setitem方法
+    """
+
+    def __setitem__(self, key, value):
+        myDict = {'name': 'jiming', key: value}
+        return myDict
 
 
 class TestValue(Dict):
@@ -126,6 +160,8 @@ class MyStudent(object):
     def __getattr__(self, item):
         if item == 'score':
             return lambda x: x + 90
+        if item == 'age':
+            return lambda: 23
         raise AttributeError('\'Student\' object has no attribute \'%s\'' % item)
 
 
@@ -145,32 +181,56 @@ class Chain(object):
     __repr__ = __str__
 
 
-if __name__ == '__main__':
+# 函数式编程
+def test01():
     student = Student('chen')
     # print(student.name)
     print(student)
     print(len(student))
     print(student.__repr__())
+    # 测试调用call函数
+    student.studentHobby = 'basketball'
+    try:
+        student('test', **{'name': 'jiming'})
+    except TypeError as e:
+        print(e)
 
+
+def test02():
     for n in Fib():
         print(n, end=' ')
     print()
 
     f = Fib1()
+    print(f[10])
     print(f[2:8])
     print(f[1:8:2])
+    print(f[:8:2])
+    print(f[1:-1])
 
+
+def test03():
     test = TestValue({'a': 2})
     test['b'] = 10  # 设置字典内容
     test['c'] = 100
     print(test)
     print(test['c'])
 
+
+def test04():
     # 避免访问不存在的实例属性
     student1 = MyStudent("chen")
     print(student1.name)
+    print(student1.age())
     print(student1.score(10))
 
+    try:
+        print(student1.hobby)
+    except AttributeError as e:
+        print(e)
+
+
+def test05():
     # 动态链接
     chain = Chain('www.baidu.com')
     print(chain.files.name)
@@ -188,11 +248,20 @@ if __name__ == '__main__':
         if flag > 5:
             break
 
+
+def test06():
     # call()方法 实例不需要调用方法来访问实例属性可以通过内置call()方法获取
     myStudent = Student('ming')
-    myStudent.studentHobby = 'basketball'
+    try:
+        # myStudent.studentHobby = 'basketball'
+        myStudent.studentHobby = 'football'
+    except TypeError as e:
+        print(e)
+
     myStudent([1, 2, 3, 4], {'a': 10, 'b': 11, 'c': 12}, a=10, b=20, c=20, d=40)
 
+
+def test07():
     # 判断一个变量是函数还是对象
     # 能被调用的对象就是一个Callable对象
     print(callable(Student('chen')))
@@ -200,3 +269,13 @@ if __name__ == '__main__':
     print(callable([1, 2, 34, 3]))
     print(callable(None))
     print(callable('str'))
+
+
+if __name__ == '__main__':
+    # test01()
+    # test02()
+    # test03()
+    # test04()
+    # test05()
+    # test06()
+    test07()

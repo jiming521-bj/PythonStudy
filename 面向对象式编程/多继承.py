@@ -4,18 +4,31 @@
 # @File     : 多继承.py
 # @SoftWare : PyCharm
 
+from types import MethodType
+
+
 class Animal(object):
     pass
 
 
 class Runnable(object):
-    def run(self):
+    @classmethod
+    def run(cls):
         print("Running.....")
 
 
 class Flyable(object):
-    def fly(self):
+    @classmethod
+    def fly(cls):
         print("Flying.....")
+
+
+def print_run(Object):
+    Object.run()
+
+
+def set_name(self, name):
+    self.name = name
 
 
 # 大类:
@@ -42,3 +55,15 @@ class Parrot(Bird):
 
 class Ostrich(Bird):
     pass
+
+
+if __name__ == '__main__':
+    dog = Dog()
+    print_run(dog)
+
+    dog.set_name = MethodType(set_name, dog)
+    dog.set_name('jiming')
+    if hasattr(dog, 'name'):
+        print(dog.name)
+    else:
+        print('not')
