@@ -4,30 +4,38 @@
 # @File     : ORM框架.py
 # @SoftWare : PyCharm
 
+# 定义字段基类
 class Field(object):
-
+    # 初始化实例数据
     def __init__(self, name, column_type):
+        # 字段名称
         self.name = name
+        # 字段所属类型
         self.column_type = column_type
 
+    # 以字符串的格式返回字段名称和字段类型
     def __str__(self):
         return '<%s:%s>' % (self.__class__.__name__, self.name)
 
 
+# 定义字段派生类
 class StringField(Field):
+    # 初始化数据
     def __init__(self, name):
+        # 继承父类的初始化方法 重写父类的__init__方法
         super(StringField, self).__init__(name, 'varchar(100)')  # 利用子类向父类传值初始化
 
 
 class IntegerField(Field):
+    # 重写父类__init__方法
     def __init__(self, name):
         super(IntegerField, self).__init__(name, 'bigint')
 
 
 class ModelMetaclass(type):  # 定义元类
-    def __new__(cls, name, bases, attrs):
+    def __new__(mcs, name, bases, attrs):
         if name == 'Model':
-            return type.__new__(cls, name, bases, attrs)
+            return type.__new__(mcs, name, bases, attrs)
         print('Found model: %s' % name)
 
         mappings = dict()
@@ -39,7 +47,7 @@ class ModelMetaclass(type):  # 定义元类
             attrs.pop(key)
         attrs['__mappings__'] = mappings  # 保存属性和列的映射关系
         attrs['__table__'] = name  # 假设表名和类名一致
-        return type.__new__(cls, name, bases, attrs)
+        return type.__new__(mcs, name, bases, attrs)
 
 
 class Model(dict, metaclass=ModelMetaclass):
