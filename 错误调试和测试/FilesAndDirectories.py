@@ -69,9 +69,38 @@ def test04():
     print('\\'.join(split_dir_list))
 
 
+def test05():
+    """直接获取文件扩展名"""
+    my_path = 'C:\\Administrator\\Desktop\\jiming.txt'
+    print(os.path.splitext(my_path))
+
+
+def test06():
+    """文件重命名和删除文件"""
+    try:
+        os.rename('content.cpp', 'content.txt')
+    except FileNotFoundError as e:
+        print(e)
+    else:
+        print('重命名成功')
+    finally:
+        print('End')
+
+
+def test07():
+    """当前文件夹下所有目录"""
+    print([x for x in os.listdir('.') if os.path.isdir(x)])
+
+    # 列出当前文件夹下的所有.py文件
+    [print(y) for y in os.listdir('.') if os.path.isfile(y) and os.path.splitext(y)[1] == '.py']
+
+
 if __name__ == '__main__':
     # test01()
     # test02()
     # test03()
-    test04()
+    # test04()
+    # test05()
+    # test06()
+    test07()
     pass
