@@ -94,14 +94,22 @@ def run_function():
     # 通过网络获取Queue对象
     task = manager.get_task_queue()
     result = manager.get_result_queue()
+    questionDict = {
+        'a': '你的名字叫什么?',
+        'b': '你来自哪里?',
+        'c': '你要到那里去？'
+    }
     # 开启示例任务
-    for i in range(10):
-        n = random.randint(0, 10000)
-        print('Put task %d to run...' % n)
+    for i in range(3):
+        # n = random.randint(0, 10000)
+        n = [name for name in questionDict.keys()][i]
+        print('Put task %s to run...' % i)
+        print('Question: %s' % questionDict[n])
         task.put(n)
+
     # 读取任务结果
     print('Try to get results...')
-    for i in range(10):
+    for i in range(3):
         r = result.get(timeout=10)
         print('Results: %s' % r)
     manager.shutdown()

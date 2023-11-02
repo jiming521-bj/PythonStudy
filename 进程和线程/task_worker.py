@@ -32,11 +32,20 @@ task = m.get_task_queue()
 result = m.get_result_queue()
 
 # 从task队列取任务，并把结果写入到result队列中
-for i in range(10):
+for i in range(3):
     try:
         n = task.get(timeout=1)
-        print('run task %d * %d....' % (n, n))
-        r = '%d * %d = %d' % (n, n, n * n)
+        # print('run task %d * %d....' % (n, n))
+        # r = '%d * %d = %d' % (n, n, n * n)
+        print('run task %s' % n)
+        if n == 'a':
+            r = '我的名字叫吉明！'
+        elif n == 'b':
+            r = '我来自北京！'
+        elif n == 'c':
+            r = '我想去北极看冰川！'
+        else:
+            r = 'None'
         time.sleep(1)
         result.put(r)
     except queue.Empty:
