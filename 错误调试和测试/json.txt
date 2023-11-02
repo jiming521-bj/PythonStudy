@@ -1,0 +1,1 @@
+{"name": "ming", "age": 88, "email": "jiming581@gmail.com"}
