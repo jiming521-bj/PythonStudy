@@ -87,11 +87,11 @@ def run_function():
     QueueManager.register('get_task_queue', callable=return_task_queue)
     QueueManager.register('get_result_queue', callable=return_result_queue)
     # 绑定端口5000，设置验证密码'abc'
-    manager = QueueManager(address=('127.0.0.1', 5000), authkey=b'abc')
+    manager = QueueManager(address=('10.2.1.2', 5000), authkey=b'abc')
     # Linux下address留空等于本机 Windows下不能留空 127.0.0.0即本机的地址
     # 启动Queue
     manager.start()
-    # 通过网络获取Queue对象
+    # 通过网络获取Queue对
     task = manager.get_task_queue()
     result = manager.get_result_queue()
     questionDict = {
@@ -110,7 +110,7 @@ def run_function():
     # 读取任务结果
     print('Try to get results...')
     for i in range(3):
-        r = result.get(timeout=10)
+        r = result.get(timeout=20)
         print('Results: %s' % r)
     manager.shutdown()
     print('master has been shutdown')
