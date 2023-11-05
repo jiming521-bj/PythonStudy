@@ -116,6 +116,41 @@ def test06():
     print(value_1, value_2)
 
 
+def test07():
+    """配置UTC时区"""
+    UTCString = 'UTC-7:00'
+    m = re.match(r'^(UTC)([+,-]\d):(0*)$', UTCString)
+    print(m.group())
+    print(m.group(1))
+    print(m.group(2))
+
+
+def test08():
+    """sample"""
+    # 尝试写一个验证Email地址的表达式，版本一应该可以验证出类似的Email
+    """
+    someone@gmail.com
+    bill.gates@microsoft.com
+    """
+    email = 'billgates@microsoft.com'
+    value = re.match(r'[(\w+).]*@(\w+)(.com)$', email)
+    print(value)
+
+
+def test09():
+    """匹配带名字的邮箱"""
+    email_username = '<Tom Paris> tom@voyager.org'
+    value = re.match(r'(<[\w+ ]*>)\s?(\w+)@(\w+)(.org)$', email_username)
+    print(value)
+
+    # 输出原始邮箱
+    print(value.group(0))
+    # 提取邮箱的用户名
+    print(value.group(2))
+
+    print(value.groups())
+
+
 if __name__ == '__main__':
     # test01()
     # while True:
@@ -124,4 +159,7 @@ if __name__ == '__main__':
     # test03()
     # test04()
     # test05()
-    test06()
+    # test06()
+    # test07()
+    # test08()
+    test09()
