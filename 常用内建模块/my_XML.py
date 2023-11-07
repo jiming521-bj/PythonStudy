@@ -62,9 +62,10 @@ class WeatherSaxHandler(object):
         self.L = []
 
     def start_element(self, name, attrs):
-        print(f'start_element: {name}, attrs: {str(attrs)}')
+        # print(f'start_element: {name}, attrs: {str(attrs)}')
         # pass
-        self.L.append(attrs)
+        if attrs:
+            self.L.append(attrs)
 
     def end_element(self, name):
         # print(f'end_element: {name}')
@@ -79,6 +80,22 @@ class WeatherSaxHandler(object):
 
 
 def parse_weather(xml):
+    # 创建对象实例
+    handler = WeatherSaxHandler()
+    # 创建解析对象
+    parser = ParserCreate()
+    # 将解析实例的方法替换我们自定义的实例
+    parser.StartElementHandler = handler.start_element
+    parser.EndElementHandler = handler.end_element
+    parser.CharacterDataHandler = handler.char_element
+    # 解析XML
+    parser.Parse(xml)
+
+    # for i in handler.returnL():
+    #     for key, value in i.items():
+    #         print(key, value)
+    # print()
+
     return {
         'city': 'Beijing',
         'country': 'China',
@@ -120,31 +137,16 @@ def test02():
         </channel>
     </rss>
     '''
-    # weather = parse_weather(data)
-    # assert weather['city'] == 'Beijing', weather['city']
-    # assert weather['country'] == 'China', weather['country']
-    # assert weather['today']['text'] == 'Partly Cloudy', weather['today']['text']
-    # assert weather['today']['low'] == 20, weather['today']['low']
-    # assert weather['today']['high'] == 33, weather['today']['high']
-    # assert weather['tomorrow']['text'] == 'Sunny', weather['tomorrow']['text']
-    # assert weather['tomorrow']['low'] == 21, weather['tomorrow']['low']
-    # assert weather['tomorrow']['high'] == 34, weather['tomorrow']['high']
-    # print('Weather:', str(weather))
-
-    # 创建对象实例
-    handler = WeatherSaxHandler()
-    # 创建解析对象
-    parser = ParserCreate()
-    # 将解析实例的方法替换我们自定义的实例
-    parser.StartElementHandler = handler.start_element
-    parser.EndElementHandler = handler.end_element
-    parser.CharacterDataHandler = handler.char_element
-    # 解析XML
-    parser.Parse(data)
-
-    for i in handler.returnL():
-        print(i)
-    print()
+    weather = parse_weather(data)
+    assert weather['city'] == 'Beijing', weather['city']
+    assert weather['country'] == 'China', weather['country']
+    assert weather['today']['text'] == 'Partly Cloudy', weather['today']['text']
+    assert weather['today']['low'] == 20, weather['today']['low']
+    assert weather['today']['high'] == 33, weather['today']['high']
+    assert weather['tomorrow']['text'] == 'Sunny', weather['tomorrow']['text']
+    assert weather['tomorrow']['low'] == 21, weather['tomorrow']['low']
+    assert weather['tomorrow']['high'] == 34, weather['tomorrow']['high']
+    print('Weather:', str(weather))
 
 
 if __name__ == '__main__':

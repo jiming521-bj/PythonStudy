@@ -1,0 +1,62 @@
+# -*- coding: utf-8 -*-
+# @Time     : 2023/11/7 9:44
+# @Author   : JiMing
+# @File     : my_HTMLParser.py
+# @SoftWare : PyCharm
+from html.parser import HTMLParser
+from html.entities import name2codepoint
+
+"""
+如果我们要编写一个搜索引擎，第一步是用爬虫把目标网站的页面抓下来，
+第二步就是解析该HTML页面，看看里面的内容到底是新闻、图片还是视频。
+
+假设第一步已经完成了，第二步应该如何解析HTML呢？
+HTML本质上是XML的子集，但是HTML的语法没有XML那么严格，所以不能用标准的DOM或SAX来解析HTML。
+"""
+
+
+class MyHTMLParser(HTMLParser):
+    """用于解析网站数据的类"""
+
+    def error(self, message):
+        pass
+
+    def handle_starttag(self, tag, attrs):
+        print('<%s>' % tag)
+
+    def handle_endtag(self, tag):
+        print('</%s>' % tag)
+
+    def handle_startendtag(self, tag, attrs):
+        print('<%s/>' % tag)
+
+    def handle_data(self, data):
+        print(data)
+
+    def handle_comment(self, data):
+        print('<!--', data, '-->')
+
+    def handle_entityref(self, name):
+        print('&%s;' % name)
+
+    def handle_charref(self, name):
+        print('&#%s;' % name)
+
+
+if __name__ == '__main__':
+    parser = MyHTMLParser()
+    parser.feed(
+        '''<html>
+            <head></head>
+            <body>
+                <!-- test html parser -->
+                <p>Some <a href=\"#\">html</a> HTML&nbsp;tutorial...<br>END</p>
+            </body>
+        </html>'''
+    )
+
+"""
+feed()方法可以多次调用，也就是不一定一次把整个HTML字符串都塞进去，可以一部分一部分塞进去。
+
+特殊字符有两种，一种是英文表示的&nbsp;，一种是数字表示的&#1234;，这两种字符都可以通过Parser解析出来。
+"""
